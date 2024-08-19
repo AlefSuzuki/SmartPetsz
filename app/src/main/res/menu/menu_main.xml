@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_home"
+        android:title="@string/menu_smartpetsz_home"
+        android:icon="@drawable/ic_menu_home"/>
+
+    <item android:id="@+id/menu_agenda"
+        android:title="@string/menu_smartpetsz_agenda"
+        android:icon="@drawable/ic_menu_agenda"/>
+
+    <item android:id="@+id/menu_monitor"
+        android:title="@string/menu_smartpetsz_monitor"
+        android:icon="@drawable/ic_menu_monitor"/>
+
+    <item android:id="@+id/menu_vacina"
+        android:title="@string/menu_smartpetsz_vacina"
+        android:icon="@drawable/ic_menu_vacina"/>
+
+    <item android:id="@+id/menu_configura"
+        android:title="@string/menu_smartpetsz_configura"
+        android:icon="@drawable/ic_menu_configura"/>
+
+</menu>

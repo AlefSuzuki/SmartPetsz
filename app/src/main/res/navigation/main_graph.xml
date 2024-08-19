@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/menu_home">
+
+    <fragment
+        android:id="@+id/menu_home"
+        android:name="com.example.smartpetsz.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/menu_agenda"
+        android:name="com.example.smartpetsz.AgendaFragment"
+        android:label="fragment_agenda"
+        tools:layout="@layout/fragment_agenda"/>
+    <fragment
+        android:id="@+id/menu_monitor"
+        android:name="com.example.smartpetsz.MonitorFragment"
+        android:label="fragment_monitor"
+        tools:layout="@layout/fragment_monitor"/>
+    <fragment
+        android:id="@+id/menu_vacina"
+        android:name="com.example.smartpetsz.VacinaFragment"
+        android:label="fragment_vacina"
+        tools:layout="@layout/fragment_vacina"/>
+    <fragment
+        android:id="@+id/menu_configura"
+        android:name="com.example.smartpetsz.ConfiguraFragment"
+        android:label="fragment_configura"
+        tools:layout="@layout/fragment_configura"/>
+</navigation>
