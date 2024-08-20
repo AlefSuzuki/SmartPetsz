@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Home, Modify branchhh"
+        android:text="Home, Gabi"
         android:gravity="center"
         android:background="@android:color/holo_green_light" />
 
