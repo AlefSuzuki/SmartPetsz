@@ -1,61 +1,79 @@
-package com.example.smartpetsz
-
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.SeekBar
+import android.widget.TimePicker
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.app.R
+import kotlinx.android.synthetic.main.fragment_home.*
+import org.eclipse.paho.client.mqttv3.MqttClient
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var mqttClient: MqttClient
+    private var selectedTime: String = "00:00"
+    private var selectedPortion: Int = 5
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Configuração do TimePicker
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+            selectedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
+        }
+
+        // Configuração do SeekBar para porção
+        portionSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                selectedPortion = progress
+                portionValueText.text = "Porção: ${selectedPortion}g"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Não utilizado
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Não utilizado
+            }
+        })
+
+        // Configuração do botão de salvar
+        saveButton.setOnClickListener {
+            saveSettings()
+        }
+
+        // Conectar ao broker MQTT
+        connectMQTT()
+    }
+
+    private fun connectMQTT() {
+        try {
+            mqttClient = MqttClient("tcp://broker.hivemq.com:1883", MqttClient.generateClientId(), null)
+            val options = MqttConnectOptions().apply {
+                isAutomaticReconnect = true
+                isCleanSession = true
+            }
+            mqttClient.connect(options)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Erro ao conectar ao broker MQTT", Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        Log.d("HomeFragment", "onCreateView called")
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
+    private fun saveSettings() {
+        val topic = "smartpetsz/feeder/settings"
+        val message = "Time:$selectedTime, Portion:$selectedPortion"
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        try {
+            mqttClient.publish(topic, MqttMessage(message.toByteArray()))
+            Toast.makeText(context, "Configurações salvas com sucesso!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Erro ao enviar as configurações", Toast.LENGTH_LONG).show()
+        }
     }
 }

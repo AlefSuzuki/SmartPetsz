@@ -1,18 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp"
+android:background="@color/white">
+
+<!-- Cabeçalho -->
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Smartpetsz"
+    android:textSize="24sp"
+    android:textColor="@color/black"
+    android:layout_gravity="center_horizontal"
+    android:paddingBottom="24dp" />
+
+<!-- Seção para Definir Horário -->
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
-    tools:context=".HomeFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="24dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Definir Horário"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        android:is24HourView="true" />
+</LinearLayout>
+
+<!-- Seção para Definir Porção -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Definir Porção"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <SeekBar
+        android:id="@+id/portionSeekBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home, Modify branchhh Alef aaaaaaaaaaa"
-        android:gravity="center"
-        android:background="@android:color/holo_green_light" />
+        android:layout_height="wrap_content"
+        android:min="5"
+        android:max="50"
+        android:progress="5" />
 
+    <TextView
+        android:id="@+id/portionValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Porção: 5g"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp" />
 
-</FrameLayout>
+</LinearLayout>
+
+<!-- Botão de Salvar Configurações -->
+<Button
+    android:id="@+id/saveButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Salvar Configurações"
+    android:textSize="16sp"
+    android:layout_marginTop="24dp" />
+</LinearLayout>
